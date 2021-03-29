@@ -18,26 +18,26 @@ import com.example.employee.repository.EmployeeRepository;
 public class EmployeeService {
 
 	@Autowired EmployeeRepository employeeRepository;
-	public void saveEmployee(Employee employee) {
-		employeeRepository.save(employee);
+	public Employee saveEmployee(Employee employee) {
+		return employeeRepository.save(employee);
 	}
-	
-	public void deleteEmployee(long id) {
+
+	public long deleteEmployee(long id) {
 		employeeRepository.deleteById(id);
+		return id;
 	}
-	public void updateEmployee(Employee updatedEmployee,long id) {
+	public Employee updateEmployee(Employee updatedEmployee,long id) {
 		Optional<Employee> oldEmployee  = employeeRepository.findById(id);
-		if(oldEmployee.isPresent()) {
-			oldEmployee.map(emp->{
-				emp.setFirstName(updatedEmployee.getFirstName());
-				emp.setLastName(updatedEmployee.getLastName());
-				emp.setPhone(updatedEmployee.getPhone());
-				return employeeRepository.save(emp);
-			});
+		if(oldEmployee.isPresent()) {;
+			oldEmployee.get().setFirstName(updatedEmployee.getFirstName());
+			oldEmployee.get().setLastName(updatedEmployee.getLastName());
+			oldEmployee.get().setPhone(updatedEmployee.getPhone());
+			employeeRepository.save(oldEmployee.get());
 		}
+		return oldEmployee.get();
 	}
-	public Optional<Employee> getEmployee(long id) {
-		return employeeRepository.findById(id);
+	public Employee getEmployee(long id) {
+		return employeeRepository.findById(id).get();
 	}
 	public List<Employee> getAllEmployee() {
 		return employeeRepository.findAll();

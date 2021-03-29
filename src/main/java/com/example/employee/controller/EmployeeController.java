@@ -32,7 +32,7 @@ public class EmployeeController {
 		 employeeService.saveEmployee(employee);
 		 return employee.getId();
 	}
-
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Employee> getEmployee(@PathVariable long id) {
 		return ResponseEntity.ok(employeeService.getEmployee(id));
@@ -44,13 +44,12 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/{id}")
-	public Employee updateEmployee(@PathVariable long id, @RequestBody Employee updatedEmployee) {
-		return employeeService.updateEmployee(updatedEmployee, id);
+	public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee updatedEmployee) {
+		return ResponseEntity.ok(employeeService.updateEmployee(updatedEmployee, id));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Long> deleteEmployee(@PathVariable long id) {
-		employeeService.deleteEmployee(id);
-		return new ResponseEntity<>(id, HttpStatus.OK);
+		return ResponseEntity.ok(employeeService.deleteEmployee(id));
 	}
 }
